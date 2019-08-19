@@ -4,21 +4,22 @@ terraform {
 
 provider "google" {
 	credentials = var.gcp_key
-	project     = "se-kabu"
-	region      = "asia-northeast1"
+	project     = var.project
+	region      = var.region
 }
 
 resource "google_compute_instance" "vm_instance" {
 	name         = "terraform-instance"
-	machine_type = "f1-micro"
-	zone = "asia-northeast1-a"
+	machine_type = var.machine_type
+	count = 2
+	zone = asia-northeast1-a
 	labels = {
 		owner = "kabu",
 		ttl = "100"
 	}
 	boot_disk {
 		initialize_params {
-			image = "debian-cloud/debian-9"
+			image = var.image
 		}
 	}
 

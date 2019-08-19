@@ -1,1 +1,7 @@
 variable "gcp_key" {}
+variable "machine_type" {}
+variable "region" {
+    default = "asia-northeast1"
+}
+variable "project" {}
+variable "image" {}
