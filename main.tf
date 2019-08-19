@@ -13,7 +13,7 @@ resource "google_compute_instance" "vm_instance" {
 	machine_type = "f1-micro"
 	zone = "asia-northeast1-a"
 	labels = {
-		owner = "Kabu",
+		owner = "kabu",
 		ttl = "100"
 	}
 	boot_disk {
