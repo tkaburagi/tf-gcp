@@ -2,8 +2,8 @@ terraform {
   required_version = " 0.12.6"
 }
 
-provider "aws" {
-	access_key = var.access_key
-	secret_key = var.secret_key
-	region = var.region
+provider "google" {
+	credentials = var.gcp_key
+	project     = "se-kabu"
+	region      = "asia-northeast-1"
 }
