@@ -13,9 +13,10 @@ resource "google_compute_instance" "vm_instance" {
 	machine_type = var.machine_type
 	count = var.hello_tf_instance_count
 	zone = "asia-northeast1-a"
-	tags = google_compute_firewall.default.source_tags
+	tags = google_compute_firewall.tf-playground.source_tags
 	network_interface {
-		network_ip = "10.146.15.210"
+		subnetwork = google_compute_subnetwork.subnet1.name
+		network_ip = var.static_ip
 	}
 	labels = {
 		owner = "kabu",
@@ -46,10 +47,11 @@ data "template_file" "init" {
 		nomad_url = var.nomad_url
 		terraform_url = var.terraform_url
 		ubuntu_password = var.ubuntu_password
+		static_ip = var.static_ip
 	}
 }
 
-resource "google_compute_firewall" "default" {
+resource "google_compute_firewall" "tf-playground" {
 	name    = "tf-playground-firewall"
 	network = google_compute_network.tf-playground-network.name
 
@@ -67,4 +69,11 @@ resource "google_compute_firewall" "default" {
 
 resource "google_compute_network" "tf-playground-network" {
 	name = "tf-playground-network"
+}
+
+resource "google_compute_subnetwork" "subnet1" {
+	name          = "subnet1"
+	ip_cidr_range = "192.168.10.0/24"
+	network       = google_compute_network.tf-playground-network.name
+	region        = var.region
 }

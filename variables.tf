@@ -24,3 +24,7 @@ variable "nomad_url" {
 variable "ubuntu_password" {
     default = "happy-hacking"
 }
+
+variable "static_ip" {
+    default = "192.168.10.10"
+}

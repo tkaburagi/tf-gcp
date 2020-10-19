@@ -54,6 +54,55 @@ mv /home/ubuntu/terraform /usr/local/bin/
 
 rm /home/ubuntu/*.zip
 
+### Nomad Config
+cat << EOF > /home/ubuntu/nomad-server.hcl
+data_dir  = "/home/ubuntu/nomad-data"
+
+bind_addr = "${static_ip}"
+
+server {
+  enabled          = true
+  bootstrap_expect = 1
+}
+
+advertise {
+  http = "${static_ip}"
+  rpc  = "${static_ip}"
+  serf = "${static_ip}"
+}
+EOF
+
+cat << EOF > /home/ubuntu/nomad-client.hcl
+data_dir  = "/home/ubuntu/nomad-data"
+
+bind_addr = "${static_ip}"
+
+client {
+  enabled = true
+  servers = ["${static_ip}:4647"]
+}
+
+advertise {
+  http = "${static_ip}"
+  rpc  = "${static_ip}"
+  serf = "${static_ip}"
+}
+
+ports {
+  http = 5641
+  rpc  = 5642
+  serf = 5643
+}
+EOF
+
+cat << EOF > runnomad.sh
+#!/bin/sh
+nomad agent -config=/home/ubuntu/nomad-server.hcl &
+nomad agent -config=/home/ubuntu/nomad-client.hcl &
+EOF
+
+chmod +x runnomad.sh
+
 ### SSH Setting
 echo "ubuntu:${ubuntu_password}" | sudo chpasswd
 
@@ -104,5 +153,7 @@ ubuntu	ALL=(ALL)       ALL
 EOF
 
 sudo service sshd restart
+
+sh /home/ubuntu/runnomad.sh
 
 exit
