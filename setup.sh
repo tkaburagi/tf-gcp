@@ -95,7 +95,7 @@ ports {
 }
 EOF
 
-cat << EOF > runnomad.sh
+cat << EOF > /home/ubuntu/runnomad.sh
 #!/bin/sh
 nomad agent -config=/home/ubuntu/nomad-server.hcl &
 nomad agent -config=/home/ubuntu/nomad-client.hcl &
