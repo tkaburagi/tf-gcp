@@ -46,7 +46,7 @@ data "template_file" "init" {
 	}
 }
 
-resource "google_compute_firewall" "tf-playground" {
+resource "google_compute_firewall" "hashi" {
 	name    = "tf-playground-firewall"
 	network = "default"
 
