@@ -13,7 +13,7 @@ resource "google_compute_instance" "vm_instance" {
 	machine_type = var.machine_type
 	count = var.hello_tf_instance_count
 	zone = "asia-northeast1-a"
-	tags = google_compute_firewall.tf-playground.source_tags
+	tags = google_compute_firewall.hashi.source_tags
 	network_interface {
 		subnetwork = "default"
 		network_ip = var.static_ip
