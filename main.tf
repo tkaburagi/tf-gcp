@@ -47,7 +47,7 @@ data "template_file" "init" {
 }
 
 resource "google_compute_firewall" "hashi" {
-	name    = "tf-playground-firewall"
+	name    = "hashi"
 	network = "default"
 
 	allow {
