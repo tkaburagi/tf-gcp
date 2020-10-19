@@ -101,7 +101,7 @@ nomad agent -config=/home/ubuntu/nomad-server.hcl &
 nomad agent -config=/home/ubuntu/nomad-client.hcl &
 EOF
 
-chmod +x runnomad.sh
+chmod +x /home/ubuntu/runnomad.sh
 
 ### SSH Setting
 echo "ubuntu:${ubuntu_password}" | sudo chpasswd
