@@ -15,8 +15,10 @@ resource "google_compute_instance" "vm_instance" {
 	zone = "asia-northeast1-a"
 	tags = google_compute_firewall.tf-playground.source_tags
 	network_interface {
-		subnetwork = google_compute_subnetwork.subnet1.name
+		subnetwork = "default"
 		network_ip = var.static_ip
+		access_config {
+		}
 	}
 	labels = {
 		owner = "kabu",
@@ -25,13 +27,6 @@ resource "google_compute_instance" "vm_instance" {
 	boot_disk {
 		initialize_params {
 			image = var.image
-		}
-	}
-
-	network_interface {
-		# A default network is created for all GCP projects
-		network       = "default"
-		access_config {
 		}
 	}
 
@@ -53,7 +48,7 @@ data "template_file" "init" {
 
 resource "google_compute_firewall" "tf-playground" {
 	name    = "tf-playground-firewall"
-	network = google_compute_network.tf-playground-network.name
+	network = "default"
 
 	allow {
 		protocol = "icmp"
@@ -65,15 +60,4 @@ resource "google_compute_firewall" "tf-playground" {
 	}
 
 	source_tags = ["hashi"]
-}
-
-resource "google_compute_network" "tf-playground-network" {
-	name = "tf-playground-network"
-}
-
-resource "google_compute_subnetwork" "subnet1" {
-	name          = "subnet1"
-	ip_cidr_range = "192.168.10.0/24"
-	network       = google_compute_network.tf-playground-network.name
-	region        = var.region
 }

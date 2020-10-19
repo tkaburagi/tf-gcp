@@ -26,5 +26,5 @@ variable "ubuntu_password" {
 }
 
 variable "static_ip" {
-    default = "192.168.10.10"
+    default = "10.146.15.212"
 }
